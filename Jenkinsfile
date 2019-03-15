@@ -11,7 +11,7 @@ currentBuild.result = "SUCCESS"
 
        stage('Run Unit Tests'){
 
-           mvn test
+           bat "mvn clean test"
        }
 
     }

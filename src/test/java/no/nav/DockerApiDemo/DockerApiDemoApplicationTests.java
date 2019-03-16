@@ -13,9 +13,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @DirtiesContext
 public class DockerApiDemoApplicationTests {
 
-	@ClassRule
+	/*@ClassRule
 	public static EmbeddedKafkaRule embeddedKafka =
-			new EmbeddedKafkaRule(1, true, "ExampleTopic");
+			new EmbeddedKafkaRule(1, true, "ExampleTopic");*/
 
 
 	@Test

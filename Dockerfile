@@ -9,7 +9,7 @@ WORKDIR /opt/app
 ADD target/DockerApiDemo-1.0.0.jar .
 
 #local application port
-EXPOSE 8085
+EXPOSE 8082
 
 # Tell docker on how to start the spring boot application
 ENTRYPOINT ["java","-jar","DockerApiDemo-1.0.0.jar"]

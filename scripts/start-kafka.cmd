@@ -1,0 +1,1 @@
+kafka-server-start -daemon %KAFKA_HOME%\config\server.properties

@@ -1,0 +1,1 @@
+kafka-topics --zookeeper localhost:2181 --create --topic test --replication-factor 1 --partitions 1

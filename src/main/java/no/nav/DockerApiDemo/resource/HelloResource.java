@@ -28,8 +28,8 @@ public class HelloResource {
     @Autowired
     ActiveMQQueue queue;
 
-    @Autowired
-    MessageConverter messageConverter;
+    /*@Autowired
+    MessageConverter messageConverter;*/
 
     public static final String TOPIC = "kafka_example";
 
@@ -71,10 +71,10 @@ public class HelloResource {
     /**
      * Api to publish json message to JMS
      */
-    @ApiOperation(value="Publishes message to Kafka Topic")
+    @ApiOperation(value="Publishes message to JMS ActiveMQ")
     @PostMapping("/publish/jms")
     public String PublishJMS(@RequestBody String message){
-        jmsTemplate.setMessageConverter(messageConverter);
+        //jmsTemplate.setMessageConverter(messageConverter);
         jmsTemplate.convertAndSend(queue,new Person("Kiran","19048618465"));
         return "Published to JMS Successfully";
     }

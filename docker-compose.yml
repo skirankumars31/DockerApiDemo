@@ -16,3 +16,14 @@ services:
     ports:
       - "8082:8082"
       - "8085:8085"
+
+
+  pactbroker:
+
+    image: dius/pact-broker
+    container_name: pact-broker-container
+    ports:
+        - "8090:80"
+    environment:
+        PACT_BROKER_DATABASE_ADAPTER: sqlite
+        PACT_BROKER_DATABASE_NAME: pact_broker.sqlite

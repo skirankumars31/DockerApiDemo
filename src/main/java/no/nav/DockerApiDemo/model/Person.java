@@ -1,5 +1,7 @@
 package no.nav.DockerApiDemo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
 public class Person implements Serializable{
@@ -7,7 +9,12 @@ public class Person implements Serializable{
     String name;
     String FNR;
 
-    public Person(String name, String FNR) {
+    /**
+     * The json property is specified so that jackson can convert json into a java object
+     * @param name
+     * @param FNR
+     */
+    public Person(@JsonProperty("name") String name,@JsonProperty("fnr") String FNR) {
         this.name = name;
         this.FNR = FNR;
     }

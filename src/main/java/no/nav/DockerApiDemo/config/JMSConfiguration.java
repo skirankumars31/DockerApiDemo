@@ -30,7 +30,11 @@ public class JMSConfiguration {
 
     @Bean
     public JmsTemplate jmsTemplate() {
-        return new JmsTemplate(activeMQConnectionFactory());
+        JmsTemplate jmsTemplate = new JmsTemplate(activeMQConnectionFactory());
+        jmsTemplate.setMessageConverter(jacksonJmsMessageConverter());
+
+        return jmsTemplate;
+        //return new JmsTemplate(activeMQConnectionFactory()).setMessageConverter(jacksonJmsMessageConverter());
     }
 
     // Serialize message content to json using TextMessage

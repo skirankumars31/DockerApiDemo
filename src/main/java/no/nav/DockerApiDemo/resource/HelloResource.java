@@ -5,7 +5,9 @@ import io.swagger.annotations.ApiOperation;
 import jdk.jfr.ContentType;
 import no.nav.DockerApiDemo.model.Person;
 import org.junit.ClassRule;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.test.rule.EmbeddedKafkaRule;
 import org.springframework.kafka.test.rule.KafkaEmbedded;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,11 @@ public class HelloResource {
 
     @Value("${spring.message}")
     String message;
+
+    @Autowired
+    private KafkaTemplate<String,Person> kafkaTemplate;
+
+    public static final String TOPIC = "kafka_example";
 
     @ApiOperation(value="Says Hello World")
     @GetMapping(value= "/hello", produces = "application/text")
@@ -40,5 +47,16 @@ public class HelloResource {
     @PostMapping("/post")
     public String sayHello(@RequestBody String name){
         return "Hello"+name;
+    }
+
+
+    /**
+     * Api to publish message to Kafka
+     */
+    @ApiOperation(value="Publishes message to Kafka Topic")
+    @PostMapping("/publish/message")
+    public String PublishMessage(@RequestBody String message){
+        kafkaTemplate.send(TOPIC,new Person("Kiran","19048618465"));
+        return "Published Successfully";
     }
 }

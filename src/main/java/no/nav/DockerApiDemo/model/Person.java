@@ -1,6 +1,8 @@
 package no.nav.DockerApiDemo.model;
 
-public class Person {
+import java.io.Serializable;
+
+public class Person implements Serializable{
 
     String name;
     String FNR;
@@ -25,4 +27,14 @@ public class Person {
     public void setFNR(String FNR) {
         this.FNR = FNR;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + this.name + '\'' +
+                ", FNR='" + this.FNR + '\'' +
+                '}';
+    }
+
+
 }

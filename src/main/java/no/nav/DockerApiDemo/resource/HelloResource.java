@@ -2,14 +2,13 @@ package no.nav.DockerApiDemo.resource;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import jdk.jfr.ContentType;
 import no.nav.DockerApiDemo.model.Person;
-import org.junit.ClassRule;
+import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.test.rule.EmbeddedKafkaRule;
-import org.springframework.kafka.test.rule.KafkaEmbedded;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +21,15 @@ public class HelloResource {
 
     @Autowired
     private KafkaTemplate<String,Person> kafkaTemplate;
+
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
+    @Autowired
+    ActiveMQQueue queue;
+
+    @Autowired
+    MessageConverter messageConverter;
 
     public static final String TOPIC = "kafka_example";
 
@@ -57,6 +65,18 @@ public class HelloResource {
     @PostMapping("/publish/message")
     public String PublishMessage(@RequestBody String message){
         kafkaTemplate.send(TOPIC,new Person("Kiran","19048618465"));
-        return "Published Successfully";
+        return "Published to Kafka Successfully";
     }
+
+    /**
+     * Api to publish json message to JMS
+     */
+    @ApiOperation(value="Publishes message to Kafka Topic")
+    @PostMapping("/publish/jms")
+    public String PublishJMS(@RequestBody String message){
+        jmsTemplate.setMessageConverter(messageConverter);
+        jmsTemplate.convertAndSend(queue,new Person("Kiran","19048618465"));
+        return "Published to JMS Successfully";
+    }
+
 }

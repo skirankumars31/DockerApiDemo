@@ -17,7 +17,8 @@ Swagger endpoint is http://localhost:8082/swagger-ui.html
 
 #Kafka
 Kafka installation is also copied under the container folder
-/opt/app/kafka_2.12-2.1.1
+To read from the console consumer use the below command
+kafka-console-consumer --bootstrap-server localhost:9092 --topic kafka_example --from-beginning 
 
 #JMS Queue
 JMS Admin Console - http://localhost:8161

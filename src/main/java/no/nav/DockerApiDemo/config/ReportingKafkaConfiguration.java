@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class KafkaConfiguration {
+public class ReportingKafkaConfiguration {
 
     /**
      * Links bootstrap server from application.properties
@@ -25,20 +25,19 @@ public class KafkaConfiguration {
     String bootstrapServers;
 
     @Bean
-    public ProducerFactory<String,Person> producerFactory(){
+    public ProducerFactory<String,SoknadResponse> reportingProducerFactory(){
 
-        Map<String,Object> config = new HashMap<>();
-
+        Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,bootstrapServers);
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,JsonSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
         return new DefaultKafkaProducerFactory(config);
     }
 
 
     @Bean
-    public KafkaTemplate<String,Person> kafkaTemplate(){
-        return new KafkaTemplate<>(producerFactory());
+    public KafkaTemplate<String,SoknadResponse> reportingKafkaTemplate(){
+        return new KafkaTemplate<>(reportingProducerFactory());
     }
 }

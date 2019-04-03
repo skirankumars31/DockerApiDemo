@@ -1,20 +1,24 @@
-package no.nav.DockerApiDemo.resource;
+package no.nav.DockerApiDemo.Controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import no.nav.DockerApiDemo.model.Person;
+import no.nav.DockerApiDemo.model.Soknad;
+import no.nav.DockerApiDemo.model.SoknadResponse;
+import no.nav.DockerApiDemo.services.PersonService;
+import no.nav.DockerApiDemo.services.SoknadService;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/rest/docker/api")
-@Api(value="Hello Resource",description="Operations related to Hello World")
-public class HelloResource {
+@RequestMapping("/soknad")
+@Api(value="Soknad",description="Operations pertaining to Ytelser Soknad")
+public class SoknadController {
 
     @Value("${spring.message}")
     String message;
@@ -27,6 +31,9 @@ public class HelloResource {
 
     @Autowired
     ActiveMQQueue queue;
+
+    @Autowired
+    SoknadService soknadService;
 
     /*@Autowired
     MessageConverter messageConverter;*/
@@ -58,6 +65,13 @@ public class HelloResource {
     }
 
 
+    @ApiOperation(value="Send Soknad via Rest API")
+    @PostMapping("/sendApiSoknad")
+    public SoknadResponse sendApiSoknad(@RequestBody Soknad soknad){
+        return soknadService.processSoknad(soknad.getFNR());
+    }
+
+
     /**
      * Api to publish message to Kafka
      */
@@ -75,7 +89,7 @@ public class HelloResource {
     @PostMapping("/publish/jms")
     public String PublishJMS(@RequestBody String message){
         //jmsTemplate.setMessageConverter(messageConverter);
-        jmsTemplate.convertAndSend(queue,new Person("Kiran","19048618465"));
+        jmsTemplate.convertAndSend(queue,new Soknad("Kiran","19048618465"));
         return "Published to JMS Successfully";
     }
 

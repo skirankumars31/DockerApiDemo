@@ -38,7 +38,8 @@ public class SoknadController {
     /*@Autowired
     MessageConverter messageConverter;*/
 
-    public static final String TOPIC = "kafka_example";
+    @Value("${kafka.topic}")
+    String TOPIC;
 
     @ApiOperation(value="Says Hello World")
     @GetMapping(value= "/hello", produces = "application/text")
